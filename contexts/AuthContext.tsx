@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -276,7 +277,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(Object.assign(Object.create(Object.getPrototypeOf(updatedUser)), updatedUser, updates));
   };
 
-  const refreshUserProfile = async () => {
+ const refreshUserProfile =  useCallback(async () => {
     if (!auth?.currentUser || !db) return;
     
     const userRef = doc(db, "users", auth.currentUser.uid);
@@ -284,7 +285,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (userSnap.exists()) {
       setUserProfile(userSnap.data() as UserProfile);
     }
-  };
+  }, [setUserProfile]);
 
   const sendAddEmailVerification = async (newEmail: string) => {
     if (!auth?.currentUser) throw new Error("Not authenticated");
