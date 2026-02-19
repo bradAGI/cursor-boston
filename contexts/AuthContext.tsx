@@ -276,7 +276,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const updatedUser = auth.currentUser;
     setUser(Object.assign(Object.create(Object.getPrototypeOf(updatedUser)), updatedUser, updates));
   };
-
+// auth and db are stable module-level singletons; auth.currentUser is read at call time
  const refreshUserProfile = useCallback(async () => {
     if (!auth?.currentUser || !db) return;
     
